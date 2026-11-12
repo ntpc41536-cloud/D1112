@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>數位科技概論（上）隨堂測驗練習系統 - 系統平台的組成架構</title>
+  <meta name="description" content="數位科技概論第3回隨堂測驗卷（系統平台的組成架構 - 硬體）互動式線上測驗與詳解系統，支援全真考試、即時解析、原卷對照與題目檢索。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Confetti Particle Canvas for celebrations -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Application Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="brand-icon">💻</div>
+        <div>
+          <div class="brand-title">數位科技概論 · 智慧測驗系統</div>
+          <div class="brand-subtitle">第 3 回：系統平台的組成架構 - 硬體 (第3章)</div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Mode Switcher -->
+        <div class="mode-pills" role="tablist">
+          <button id="btn-mode-exam" class="mode-btn active" type="button" title="計時全真模擬考試">
+            <span>📝</span> 全真測驗
+          </button>
+          <button id="btn-mode-practice" class="mode-btn" type="button" title="單題即時反饋練習">
+            <span>⚡</span> 即時練習
+          </button>
+          <button id="btn-mode-study" class="mode-btn" type="button" title="全卷題庫與詳解速讀">
+            <span>📖</span> 全卷速讀
+          </button>
+        </div>
+
+        <!-- View Original Sheets -->
+        <button id="btn-view-sheets" class="btn-outline" type="button" title="查看原始實體考卷照片">
+          <span>🖼️</span> 原卷照片
+        </button>
+
+        <!-- Sound Toggle -->
+        <button id="btn-toggle-sound" class="btn-icon" type="button" title="音效切換">
+          🔊
+        </button>
+
+        <!-- Dark / Light Theme Toggle -->
+        <button id="btn-toggle-theme" class="btn-icon" type="button" title="切換深淺模式">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-main">
+
+    <!-- Information Banner -->
+    <div class="info-banner">
+      <div class="info-details">
+        <h2>
+          <span>數位科技概論（上）隨堂測驗卷 第 3 回</span>
+          <span class="tag-badge">共 25 題 · 滿分 100 分</span>
+        </h2>
+        <div class="info-meta">
+          <span>🎯 範圍：第 3 章 系統平台的組成架構（硬體）</span>
+          <span>🏫 資訊科 二年仁班 / 17 號</span>
+          <span>⌨️ 快捷鍵：鍵盤 1-4 或 A-D 作答，方向鍵 ← → 切換題目</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam & Practice Mode Container -->
+    <div id="main-quiz-container" class="quiz-grid">
+      <!-- Question Left Column -->
+      <section class="quiz-panel">
+        <div class="question-card">
+          <!-- Question Header -->
+          <div class="q-header">
+            <div class="q-badge-wrap">
+              <span id="q-num" class="q-num">第 1 題</span>
+              <span id="q-topic" class="q-topic">記憶體架構 · 第1頁</span>
+            </div>
+            <div class="q-actions">
+              <button id="btn-flag" class="btn-flag" type="button">
+                ☆ 標記此題
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Stem -->
+          <div id="q-stem" class="q-stem">
+            題目讀取中...
+          </div>
+
+          <!-- Options -->
+          <div id="options-list" class="options-list">
+            <!-- Options dynamically generated -->
+          </div>
+
+          <!-- In-depth Explanation Box -->
+          <div id="explanation-box" class="explanation-box">
+            <div class="explanation-title">💡 觀念解析與考點說明</div>
+            <div id="explanation-content" class="explanation-content">
+              解析內容...
+            </div>
+          </div>
+
+          <!-- Question Footer Navigation -->
+          <div class="q-footer">
+            <button id="btn-prev" class="btn-outline" type="button">
+              <span>←</span> 上一題
+            </button>
+            <div style="font-size:0.85rem; color:var(--text-muted);">
+              可使用鍵盤方向鍵切換
+            </div>
+            <button id="btn-next" class="btn-outline" type="button">
+              下一題 <span>→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sidebar Status & Question Grid -->
+      <aside class="quiz-sidebar">
+        <div class="status-card">
+          <!-- Countdown Timer -->
+          <div class="timer-box">
+            <span class="timer-label">⏱️ 剩餘時間</span>
+            <span id="timer-display" class="timer-digits">25:00</span>
+          </div>
+
+          <!-- Progress Header -->
+          <div class="progress-header">
+            <span>作答進度</span>
+            <span id="progress-count">0 / 25 題</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+          </div>
+
+          <!-- Navigator Legend -->
+          <div class="nav-legend">
+            <div class="legend-item"><span class="legend-dot unanswered"></span> 未答</div>
+            <div class="legend-item"><span class="legend-dot answered"></span> 已答</div>
+            <div class="legend-item"><span class="legend-dot flagged"></span> 標記</div>
+            <div class="legend-item"><span class="legend-dot correct"></span> 正確</div>
+            <div class="legend-item"><span class="legend-dot wrong"></span> 錯誤</div>
+          </div>
+
+          <!-- 25 Questions Grid -->
+          <div id="navigator-grid" class="grid-matrix">
+            <!-- Matrix buttons dynamically generated -->
+          </div>
+
+          <!-- Submit Button Wrap -->
+          <div class="submit-wrap">
+            <button id="btn-submit-exam" class="btn-primary btn-submit-exam" type="button">
+              🏁 送出試卷評分
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Study Guide / List Mode Container -->
+    <div id="study-mode-container" class="study-mode-container" style="display: none;">
+      <div class="study-controls">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input id="study-search-input" class="search-input" type="text" placeholder="搜尋關鍵字（例如：CPU, SRAM, 悠遊卡, SSD, 熱插拔...）">
+        </div>
+        <div>
+          <select id="study-category-select" class="filter-select">
+            <option value="all">所有章節類別 (全部)</option>
+          </select>
+        </div>
+        <label style="display:flex; align-items:center; gap:0.4rem; font-size:0.875rem; cursor:pointer;">
+          <input id="study-filter-mistakes" type="checkbox">
+          <span>僅顯示測驗錯題</span>
+        </label>
+      </div>
+
+      <div id="study-questions-list">
+        <!-- Generated dynamically -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Submit Confirmation Modal -->
+  <div id="modal-submit-confirm" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 460px; text-align: center;">
+      <button class="modal-close" type="button" aria-label="關閉">&times;</button>
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📝</div>
+      <h3 style="margin-bottom: 0.75rem; font-size: 1.25rem;">確認送出試卷？</h3>
+      <p id="submit-confirm-msg" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        確認要交卷嗎？交卷後將顯示詳細成績與評語。
+      </p>
+      <div style="display:flex; justify-content:center; gap:0.75rem;">
+        <button id="btn-cancel-submit" class="btn-outline" type="button" style="padding:0.6rem 1.2rem;">繼續作答</button>
+        <button id="btn-confirm-submit" class="btn-primary" type="button" style="padding:0.6rem 1.5rem;">確定交卷</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Score & Result Modal -->
+  <div id="modal-result" class="modal-backdrop">
+    <div class="modal-window">
+      <button class="modal-close" type="button" aria-label="關閉">&times;</button>
+      <div class="result-header">
+        <div class="score-badge-circle">
+          <span id="res-score" class="score-num">88</span>
+          <span class="score-max">/ 100 分</span>
+        </div>
+        <h3 style="font-size: 1.35rem; margin-bottom: 0.35rem;">測驗成績報告</h3>
+        <p id="res-feedback-text" style="color: var(--text-muted); font-size: 0.95rem;">
+          評價載入中...
+        </p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div id="res-correct-count" class="stat-val correct">22</div>
+          <div class="stat-lbl">答對題數</div>
+        </div>
+        <div class="stat-box">
+          <div id="res-wrong-count" class="stat-val wrong">3</div>
+          <div class="stat-lbl">答錯題數</div>
+        </div>
+        <div class="stat-box">
+          <div id="res-time-spent" class="stat-val">12 分 30 秒</div>
+          <div class="stat-lbl">作答用時</div>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button id="btn-review-exam" class="btn-primary" type="button">
+          🔍 檢視全卷詳解
+        </button>
+        <button id="btn-review-mistakes-only" class="btn-outline" type="button">
+          ⚠️ 重點複習錯題
+        </button>
+        <button id="btn-retake-exam" class="btn-outline" type="button">
+          🔄 重新測驗一次
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Original Sheet Viewer Modal -->
+  <div id="modal-sheet-viewer" class="modal-backdrop">
+    <div class="modal-window sheet-modal-window">
+      <button class="modal-close" type="button" aria-label="關閉">&times;</button>
+      <h3 style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+        <span>📄</span> 原始考卷照片對照檢視
+      </h3>
+      <div class="sheet-tabs">
+        <button id="sheet-tab-0" class="sheet-tab-btn active" type="button">第 1 頁（第 1 ~ 13 題）</button>
+        <button id="sheet-tab-1" class="sheet-tab-btn" type="button">第 2 頁（第 14 ~ 25 題）</button>
+      </div>
+      <div class="sheet-img-container">
+        <img id="sheet-image" src="15867.jpg" alt="原始考卷第 1 頁" loading="lazy">
+      </div>
+      <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.6rem; text-align:center;">
+        💡 提示：點擊分頁可切換第 1 頁與第 2 頁，支援滾動放大檢視考卷筆跡與原始題號。
+      </div>
+    </div>
+  </div>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <div>數位科技概論（上）隨堂測驗 · 第3章 系統平台的組成架構 - 硬體</div>
+    <div style="margin-top: 0.35rem; font-size: 0.75rem; color: var(--text-dim);">
+      提供全真模擬測驗、即時詳解反饋、快捷鍵作答與原卷影像比對功能
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
